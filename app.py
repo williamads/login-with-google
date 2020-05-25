@@ -2,6 +2,7 @@
 import json
 import os
 import sqlite3
+import urllib.parse
 
 # Third party libraries
 from flask import Flask, redirect, request, url_for
@@ -149,8 +150,10 @@ def callback():
     # Your hard callback here
     callback_hard = "index"
 
+    user_encoded = urllib.parse.urlencode({'id' : unique_id, 'user_name' : users_name, 'email' : users_email, 'picture' : picture})
+
     # Send user back to homepage
-    return redirect(url_for(callback_hard, user={'id' : unique_id, 'user_name' : users_name, 'email' : users_email, 'picture' : picture}))
+    return redirect(url_for(callback_hard, user=user_encoded))
 
 
 @app.route("/logout")
