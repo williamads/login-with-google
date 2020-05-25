@@ -146,8 +146,11 @@ def callback():
     # Begin user session by logging the user in
     login_user(user)
 
+    # Your hard callback here
+    callback_hard = "index"
+
     # Send user back to homepage
-    return redirect(url_for("index"))
+    return redirect(url_for(callback_hard, user={'id' : unique_id, 'user_name' : users_name, 'email' : users_email, 'picture' : picture}))
 
 
 @app.route("/logout")
@@ -156,6 +159,12 @@ def logout():
     logout_user()
     return redirect(url_for("index"))
 
+@app.route("/check")
+def check():
+    if current_user.is_authenticated:
+        return "True"
+    else:
+        return "False"
 
 def get_google_provider_cfg():
     return requests.get(GOOGLE_DISCOVERY_URL).json()
